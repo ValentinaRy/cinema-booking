@@ -19,6 +19,6 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long hallId;
-    private String row;
-    private String num;
+    private String seatRow;
+    private String seatNum;
 }
