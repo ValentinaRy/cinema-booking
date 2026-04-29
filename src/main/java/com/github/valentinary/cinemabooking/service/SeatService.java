@@ -7,6 +7,7 @@ import com.github.valentinary.cinemabooking.entity.Seat;
 import com.github.valentinary.cinemabooking.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +25,9 @@ public class SeatService {
             throw new IllegalArgumentException("Session id is incorrect: " + sessionId);
         }
         List<Seat> allSeats = seatRepository.findAllBySessionId(sessionId);
+        if (CollectionUtils.isEmpty(allSeats)) {
+            throw new IllegalArgumentException("Session not found: " + sessionId);
+        }
         List<SeatReservationProjection> reservations = reservationSeatRepository.findBySessionId(sessionId);
         LocalDateTime now = LocalDateTime.now();
         Set<Long> reservedSeatIds = reservations.stream()

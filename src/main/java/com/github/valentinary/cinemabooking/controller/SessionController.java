@@ -28,6 +28,7 @@ public class SessionController {
     }
 
     @GetMapping("/{sessionId}/seats")
+    @ResponseBody
     public List<SeatDto> getSeats(@PathVariable Long sessionId) {
         return seatService.getSeatsForSession(sessionId);
     }
