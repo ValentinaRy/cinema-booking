@@ -1,12 +1,11 @@
 package com.github.valentinary.cinemabooking.controller;
 
+import com.github.valentinary.cinemabooking.dto.SeatDto;
 import com.github.valentinary.cinemabooking.entity.Session;
+import com.github.valentinary.cinemabooking.service.SeatService;
 import com.github.valentinary.cinemabooking.service.SessionService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SessionController {
     private final SessionService sessionService;
+    private final SeatService seatService;
 
     @GetMapping
     List<Session> findSessions(
@@ -25,5 +25,10 @@ public class SessionController {
             @RequestParam(required = false) String name
             ) {
         return sessionService.findSessions(hallId,startTimeFrom, startTimeTo, name);
+    }
+
+    @GetMapping("/{sessionId}/seats")
+    public List<SeatDto> getSeats(@PathVariable Long sessionId) {
+        return seatService.getSeatsForSession(sessionId);
     }
 }
