@@ -14,8 +14,11 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     @Query("""
         SELECT s
         FROM Seat s
-        JOIN Session ss on ss.hallId = s.hallId
-        WHERE ss.id = :sessionId
+        WHERE s.hallId = (
+                  SELECT ss.hallId
+                  FROM Session ss
+                  WHERE ss.id = :sessionId
+              )
     """)
     List<Seat> findAllBySessionId(
             @Param("sessionId") Long sessionId);

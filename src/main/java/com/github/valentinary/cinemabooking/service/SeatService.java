@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,12 +22,12 @@ public class SeatService {
     private final ReservationSeatRepository reservationSeatRepository;
 
     public List<SeatDto> getSeatsForSession(Long sessionId) {
-        if (sessionId == null || sessionId < 0) {
+        if (sessionId == null || sessionId <= 0) {
             throw new IllegalArgumentException("Session id is incorrect: " + sessionId);
         }
         List<Seat> allSeats = seatRepository.findAllBySessionId(sessionId);
         if (CollectionUtils.isEmpty(allSeats)) {
-            throw new IllegalArgumentException("Session not found: " + sessionId);
+            return Collections.emptyList();
         }
         List<SeatReservationProjection> reservations = reservationSeatRepository.findBySessionId(sessionId);
         LocalDateTime now = LocalDateTime.now();
