@@ -3,10 +3,7 @@ package com.github.valentinary.cinemabooking.service;
 import com.github.valentinary.cinemabooking.entity.Reservation;
 import com.github.valentinary.cinemabooking.entity.ReservationSeat;
 import com.github.valentinary.cinemabooking.entity.ReservationStatus;
-import com.github.valentinary.cinemabooking.repository.ReservationRepository;
-import com.github.valentinary.cinemabooking.repository.ReservationSeatRepository;
-import com.github.valentinary.cinemabooking.repository.SeatReservationProjection;
-import com.github.valentinary.cinemabooking.repository.SessionRepository;
+import com.github.valentinary.cinemabooking.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +17,19 @@ public class ReservationService {
     private static final int RESERVATION_TTL_MINUTES = 20;
     private final ReservationRepository reservationRepository;
     private final ReservationSeatRepository reservationSeatRepository;
+    private final SessionRepository sessionRepository;
+    private final SeatRepository seatRepository;
 
     @Transactional
     public Long createReservation(Long sessionId, Long userId, List<Long> seatIds) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime reservedUntil = now.plusMinutes(RESERVATION_TTL_MINUTES);
+        if (!sessionRepository.existsById(sessionId)) {
+            throw new IllegalArgumentException("Session id not found: " + sessionId);
+        }
+        if (!seatIds.stream().allMatch(seatRepository::existsById)) {
+            throw new IllegalArgumentException("Some of the seats not found: " + seatIds);
+        }
         List<SeatReservationProjection> reservedBySessionId = reservationSeatRepository.findReservedBySessionId(sessionId);
         if (reservedBySessionId.stream()
                 .filter(seat -> seat.isReserved(now))
