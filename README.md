@@ -68,7 +68,7 @@ Expiration is handled using:
     - reserved_by (foreign key to user_id)
     - reserved_until (datetime)
     - status: PENDING - waiting for payment confirmation, DONE - payment was successfull, CANCELLED - payment cancelled by user or reservation timeout
-- Reservation_seats - список мест в каждой резервации
+- Reservation_seats - list of seats per reservation
     - id (primary key)
     - reservation_id (foreign key)
     - seat_id (foreign key)
