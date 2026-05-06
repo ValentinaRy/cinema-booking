@@ -16,7 +16,7 @@ public class ReservationController {
     public Long createReservation(
             @RequestBody CreateReservationRequest request) {
 
-        return reservationService.createReservation(request);
+        return reservationService.createReservation(request.getSessionId(), request.getUserId(), request.getSeatIds());
     }
 
     @PostMapping("/{id}/confirm")

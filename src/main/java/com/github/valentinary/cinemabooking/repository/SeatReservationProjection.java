@@ -8,4 +8,9 @@ public interface SeatReservationProjection {
     Long getSeatId();
     ReservationStatus getStatus();
     LocalDateTime getReservedUntil();
+
+    default boolean isReserved(LocalDateTime now) {
+        return ReservationStatus.DONE.equals(this.getStatus())
+                || ReservationStatus.PENDING.equals(this.getStatus()) && now.isBefore(this.getReservedUntil());
+    }
 }

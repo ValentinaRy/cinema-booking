@@ -45,7 +45,7 @@ class SeatServiceTest {
         when(seatRepository.findAllBySessionId(1L))
                 .thenReturn(List.of(seat1, seat2));
 
-        when(reservationSeatRepository.findBySessionId(1L))
+        when(reservationSeatRepository.findReservedBySessionId(1L))
                 .thenReturn(Collections.emptyList());
 
         List<SeatDto> result = seatService.getSeatsForSession(1L);
@@ -66,7 +66,7 @@ class SeatServiceTest {
         when(seatRepository.findAllBySessionId(1L))
                 .thenReturn(List.of(seat));
 
-        when(reservationSeatRepository.findBySessionId(1L))
+        when(reservationSeatRepository.findReservedBySessionId(1L))
                 .thenReturn(List.of(reservation));
 
         List<SeatDto> result = seatService.getSeatsForSession(1L);
@@ -88,7 +88,7 @@ class SeatServiceTest {
         when(seatRepository.findAllBySessionId(1L))
                 .thenReturn(List.of(seat));
 
-        when(reservationSeatRepository.findBySessionId(1L))
+        when(reservationSeatRepository.findReservedBySessionId(1L))
                 .thenReturn(List.of(reservation));
 
         List<SeatDto> result = seatService.getSeatsForSession(1L);
@@ -109,7 +109,7 @@ class SeatServiceTest {
         when(seatRepository.findAllBySessionId(1L))
                 .thenReturn(List.of(seat));
 
-        when(reservationSeatRepository.findBySessionId(1L))
+        when(reservationSeatRepository.findReservedBySessionId(1L))
                 .thenReturn(List.of(reservation));
 
         List<SeatDto> result = seatService.getSeatsForSession(1L);
@@ -128,7 +128,7 @@ class SeatServiceTest {
         when(seatRepository.findAllBySessionId(1L))
                 .thenReturn(List.of(seat));
 
-        when(reservationSeatRepository.findBySessionId(1L))
+        when(reservationSeatRepository.findReservedBySessionId(1L))
                 .thenReturn(List.of(reservation));
 
         List<SeatDto> result = seatService.getSeatsForSession(1L);

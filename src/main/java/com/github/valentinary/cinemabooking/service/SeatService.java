@@ -2,7 +2,6 @@ package com.github.valentinary.cinemabooking.service;
 
 import com.github.valentinary.cinemabooking.dto.SeatDto;
 import com.github.valentinary.cinemabooking.dto.SeatStatus;
-import com.github.valentinary.cinemabooking.entity.ReservationStatus;
 import com.github.valentinary.cinemabooking.entity.Seat;
 import com.github.valentinary.cinemabooking.repository.*;
 import lombok.AllArgsConstructor;
@@ -29,11 +28,10 @@ public class SeatService {
         if (CollectionUtils.isEmpty(allSeats)) {
             return Collections.emptyList();
         }
-        List<SeatReservationProjection> reservations = reservationSeatRepository.findBySessionId(sessionId);
+        List<SeatReservationProjection> reservations = reservationSeatRepository.findReservedBySessionId(sessionId);
         LocalDateTime now = LocalDateTime.now();
         Set<Long> reservedSeatIds = reservations.stream()
-                .filter(r -> ReservationStatus.DONE.equals(r.getStatus())
-                || ReservationStatus.PENDING.equals(r.getStatus()) && now.isBefore(r.getReservedUntil()))
+                .filter(r -> r.isReserved(now))
                 .map(SeatReservationProjection::getSeatId)
                 .collect(Collectors.toSet());
         return allSeats.stream()
