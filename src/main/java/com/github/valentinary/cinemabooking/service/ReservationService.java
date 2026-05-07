@@ -6,6 +6,7 @@ import com.github.valentinary.cinemabooking.entity.ReservationStatus;
 import com.github.valentinary.cinemabooking.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -42,14 +43,18 @@ public class ReservationService {
                 .reservedUntil(reservedUntil)
                 .status(ReservationStatus.PENDING)
                 .build());
-        reservationSeatRepository.saveAll(
-                seatIds.stream()
-                        .map(seatId -> ReservationSeat.builder()
-                                .reservationId(reservation.getId())
-                                .sessionId(sessionId)
-                                .seatId(seatId)
-                                .build())
-                        .toList());
+        try {
+            reservationSeatRepository.saveAll(
+                    seatIds.stream()
+                            .map(seatId -> ReservationSeat.builder()
+                                    .reservationId(reservation.getId())
+                                    .sessionId(sessionId)
+                                    .seatId(seatId)
+                                    .build())
+                            .toList());
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Seats are already reserved");
+        }
         return reservation.getId();
     }
 
