@@ -19,5 +19,6 @@ public class ReservationSeat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long reservationId;
+    private Long sessionId;
     private Long seatId;
 }

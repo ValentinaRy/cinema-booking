@@ -60,52 +60,54 @@ public class DataInitializer implements CommandLineRunner {
                 .name("User Two")
                 .build());
         Reservation reservation1 = reservationRepository.save(Reservation.builder()
-                .sessionId(awesomeMovie.getId())
                 .reservedBy(customerOne.getId())
                 .reservedUntil(LocalDateTime.now().plusHours(1))
                 .status(ReservationStatus.PENDING)
                 .build());
         reservationSeatRepository.save(ReservationSeat.builder()
                 .reservationId(reservation1.getId())
+                .sessionId(awesomeMovie.getId())
                 .seatId(a01.getId())
                 .build());
         reservationSeatRepository.save(ReservationSeat.builder()
                 .reservationId(reservation1.getId())
+                .sessionId(awesomeMovie.getId())
                 .seatId(a02.getId())
                 .build());
         Reservation reservation2 = reservationRepository.save(Reservation.builder()
-                .sessionId(awesomeMovie.getId())
                 .reservedBy(customerTwo.getId())
                 .reservedUntil(LocalDateTime.now().minusHours(1))
                 .status(ReservationStatus.DONE)
                 .build());
         reservationSeatRepository.save(ReservationSeat.builder()
                 .reservationId(reservation2.getId())
+                .sessionId(awesomeMovie.getId())
                 .seatId(b01.getId())
                 .build());
         Reservation reservation3 = reservationRepository.save(Reservation.builder()
-                .sessionId(funnyMovie.getId())
                 .reservedBy(customerTwo.getId())
                 .reservedUntil(LocalDateTime.now().minusHours(1))
                 .status(ReservationStatus.CANCELED)
                 .build());
         reservationSeatRepository.save(ReservationSeat.builder()
                 .reservationId(reservation3.getId())
+                .sessionId(funnyMovie.getId())
                 .seatId(a01.getId())
                 .build());
 
         Reservation reservation4 = reservationRepository.save(Reservation.builder()
-                .sessionId(awesomeMovie.getId())
                 .reservedBy(customerOne.getId())
                 .reservedUntil(LocalDateTime.now().plusHours(1))
                 .status(ReservationStatus.DONE)
                 .build());
         reservationSeatRepository.save(ReservationSeat.builder()
                 .reservationId(reservation4.getId())
+                .sessionId(awesomeMovie.getId())
                 .seatId(a01.getId())
                 .build());
         reservationSeatRepository.save(ReservationSeat.builder()
                 .reservationId(reservation4.getId())
+                .sessionId(awesomeMovie.getId())
                 .seatId(a02.getId())
                 .build());
     }

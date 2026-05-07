@@ -17,7 +17,6 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long sessionId;
     private Long reservedBy;
     private LocalDateTime reservedUntil;
     @Enumerated(EnumType.STRING)

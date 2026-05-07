@@ -16,7 +16,7 @@ public interface ReservationSeatRepository extends JpaRepository<ReservationSeat
                 r.reservedUntil AS reservedUntil
         FROM Reservation r
         JOIN ReservationSeat rs ON rs.reservationId = r.id
-        WHERE r.sessionId = :sessionId
+        WHERE rs.sessionId = :sessionId
     """)
     List<SeatReservationProjection> findReservedBySessionId(
             @Param("sessionId") Long sessionId);

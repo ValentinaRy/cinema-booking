@@ -38,7 +38,6 @@ public class ReservationService {
             throw new IllegalArgumentException("Seats are not available");
         }
         Reservation reservation = reservationRepository.save(Reservation.builder()
-                .sessionId(sessionId)
                 .reservedBy(userId)
                 .reservedUntil(reservedUntil)
                 .status(ReservationStatus.PENDING)
@@ -47,6 +46,7 @@ public class ReservationService {
                 seatIds.stream()
                         .map(seatId -> ReservationSeat.builder()
                                 .reservationId(reservation.getId())
+                                .sessionId(sessionId)
                                 .seatId(seatId)
                                 .build())
                         .toList());
