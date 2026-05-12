@@ -32,6 +32,7 @@ The system handles race conditions when multiple users try to reserve the same s
 - Seat availability is validated at reservation time
 - Reservation is performed atomically
 - Only one request can successfully reserve a seat
+- Consistency achieved by a database unique constrain on a pair (session_id, seat_id)
 
 Approach used:
 
@@ -62,16 +63,17 @@ Expiration is handled using:
     - start_time
     - name
     - description
-- Reservation
+- Reservation - user's payment entity, one per payment, can have multiple seats in Reservation_seats
     - id (primary key)
-    - session_id (foreign key)
     - reserved_by (foreign key to user_id)
     - reserved_until (datetime)
     - status: PENDING - waiting for payment confirmation, DONE - payment was successfull, CANCELLED - payment cancelled by user or reservation timeout
 - Reservation_seats - list of seats per reservation
     - id (primary key)
     - reservation_id (foreign key)
+    - session_id (foreign key)
     - seat_id (foreign key)
+    - UNIQUE(session_id, seat_id)
 
 
 # Project Structure
