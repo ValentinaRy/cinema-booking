@@ -58,8 +58,17 @@ public class ReservationService {
         return reservation.getId();
     }
 
+    @Transactional
     public void confirmReservation(Long id) {
-
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation id not found: " + id));
+        if (reservation.getStatus().equals(ReservationStatus.CANCELED)) {
+            throw new IllegalArgumentException("Reservation already cancelled");
+        }
+        if (reservation.getReservedUntil().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Reservation expired");
+        }
+        reservation.setStatus(ReservationStatus.DONE);
     }
 
     public void cancelReservation(Long id) {
