@@ -71,7 +71,11 @@ public class ReservationService {
         reservation.setStatus(ReservationStatus.DONE);
     }
 
+    @Transactional
     public void cancelReservation(Long id) {
-
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation id not found: " + id));
+        reservationSeatRepository.deleteBySessionId(id);
+        reservation.setStatus(ReservationStatus.DONE);
     }
 }

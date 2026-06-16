@@ -20,4 +20,6 @@ public interface ReservationSeatRepository extends JpaRepository<ReservationSeat
     """)
     List<SeatReservationProjection> findReservedBySessionId(
             @Param("sessionId") Long sessionId);
+
+    void deleteBySessionId(@Param("sessionId") Long sessionId);
 }
